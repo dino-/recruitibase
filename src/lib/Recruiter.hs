@@ -1,7 +1,7 @@
 module Recruiter
   ( Recruiter (..)
-  , decodeEither'
   , recrConfig
+  , recrDecodeEither
 
   -- re-exporting
   , encodePretty
@@ -40,8 +40,8 @@ instance FromJSON Recruiter
 instance ToJSON Recruiter
 
 
-decodeEither' :: ByteString -> Either Y.ParseException [Recruiter]
-decodeEither' = Y.decodeEither'
+recrDecodeEither :: ByteString -> Either Y.ParseException [Recruiter]
+recrDecodeEither = Y.decodeEither'
 
 
 data FieldOrder
