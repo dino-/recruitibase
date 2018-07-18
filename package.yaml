@@ -54,6 +54,7 @@ library:
   source-dirs: src/lib
   dependencies:
   - aeson
+  - containers
   - text
   - yaml
 
