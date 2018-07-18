@@ -7,13 +7,13 @@ module Recruiter
   , encodePretty
   ) where
 
-import Data.Aeson
-import Data.ByteString
-import Data.Map
-import Data.Text
+import Data.Aeson ( FromJSON, ToJSON )
+import Data.ByteString ( ByteString )
+import Data.Map ( Map )
+import Data.Text ( Text )
 import qualified Data.Yaml as Y
-import Data.Yaml.Pretty
-import GHC.Generics
+import Data.Yaml.Pretty ( Config, defConfig, encodePretty, setConfCompare )
+import GHC.Generics ( Generic )
 
 
 newtype Note = Note (Map Text Text)
