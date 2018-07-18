@@ -31,7 +31,6 @@ data Recruiter = Recruiter
   , phone :: Maybe Text
   , email :: Maybe Text
   , web :: Maybe Text
-  , kind :: Maybe Text
   , active :: Bool
   , notes :: [Note]
   }
