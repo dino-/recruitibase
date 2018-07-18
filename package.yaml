@@ -1,0 +1,78 @@
+name: recruitibase
+version: '1.0'
+#synopsis:
+#description:
+license: ISC
+author: Dino Morelli
+maintainer: dino@ui3.info
+copyright: 2018 Dino Morelli
+category: Unclassified
+extra-source-files:
+- changelog.md
+- package.yaml
+- README.md
+- stack.yaml
+
+github: dino-/recruitibase
+
+ghc-options:
+- -fwarn-tabs
+- -Wall
+- -Wcompat
+- -Werror
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
+
+default-extensions:
+- BangPatterns
+- DeriveFoldable
+- DeriveFunctor
+- DeriveGeneric
+- DeriveLift
+- DeriveTraversable
+- EmptyCase
+- FlexibleContexts
+- FlexibleInstances
+- GeneralizedNewtypeDeriving
+- InstanceSigs
+- KindSignatures
+- LambdaCase
+- MultiParamTypeClasses
+- MultiWayIf
+- NamedFieldPuns
+- OverloadedStrings
+- ScopedTypeVariables
+- StandaloneDeriving
+- TupleSections
+
+dependencies:
+- base
+- bytestring
+
+library:
+  source-dirs: src/lib
+  dependencies:
+  - aeson
+  - text
+  - yaml
+
+executables:
+  recruitibase:
+    source-dirs: src/recruitibase
+    main: Main.hs
+    dependencies:
+    - recruitibase
+
+tests:
+  recruitibase-test-suite:
+    source-dirs: src/test
+    main: Main.hs
+    dependencies:
+    - recruitibase
+    - tasty
+    - tasty-hspec
+    ghc-options:
+    - -rtsopts
+    - -threaded
+    - -with-rtsopts=-N
