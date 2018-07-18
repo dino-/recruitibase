@@ -1,9 +1,9 @@
 module Recruiter
   ( Recruiter (..)
   , decodeEither'
+  , recrConfig
 
   -- re-exporting
-  , defConfig
   , encodePretty
   ) where
 
@@ -42,3 +42,34 @@ instance ToJSON Recruiter
 
 decodeEither' :: ByteString -> Either Y.ParseException [Recruiter]
 decodeEither' = Y.decodeEither'
+
+
+data FieldOrder
+  = GivenName
+  | Surname
+  | Company
+  | Address
+  | Phone
+  | Email
+  | Web
+  | Active
+  | Notes
+  | Undefined
+  deriving (Eq, Ord)
+
+
+toFieldOrder :: Text -> FieldOrder
+toFieldOrder "givenName" = GivenName
+toFieldOrder "surname" = Surname
+toFieldOrder "company" = Company
+toFieldOrder "address" = Address
+toFieldOrder "phone" = Phone
+toFieldOrder "email" = Email
+toFieldOrder "web" = Web
+toFieldOrder "active" = Active
+toFieldOrder "notes" = Notes
+toFieldOrder _ = Undefined
+
+
+recrConfig :: Config
+recrConfig = setConfCompare (\t u -> compare (toFieldOrder t) (toFieldOrder u)) defConfig

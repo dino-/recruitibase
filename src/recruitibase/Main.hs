@@ -12,5 +12,5 @@ main = do
   --print result
 
   -- Writing it back out
-  let recoded = encodePretty defConfig <$> result
+  let recoded = encodePretty recrConfig <$> result
   either print C8.putStrLn recoded
