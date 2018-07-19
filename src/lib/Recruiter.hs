@@ -1,19 +1,20 @@
 module Recruiter
   ( Recruiter (..)
   , recrConfig
-  , recrDecodeEither
+  , loadDatabase
 
   -- re-exporting
   , encodePretty
   ) where
 
 import Data.Aeson ( FromJSON, ToJSON )
-import Data.ByteString ( ByteString )
+import Data.ByteString ( readFile )
 import Data.Map ( Map )
 import Data.Text ( Text )
-import qualified Data.Yaml as Y
+import Data.Yaml ( ParseException, decodeEither' )
 import Data.Yaml.Pretty ( Config, defConfig, encodePretty, setConfCompare )
 import GHC.Generics ( Generic )
+import Prelude hiding ( readFile )
 
 
 newtype Note = Note (Map Text Text)
@@ -40,8 +41,8 @@ instance FromJSON Recruiter
 instance ToJSON Recruiter
 
 
-recrDecodeEither :: ByteString -> Either Y.ParseException [Recruiter]
-recrDecodeEither = Y.decodeEither'
+loadDatabase :: FilePath -> IO (Either ParseException [Recruiter])
+loadDatabase recruitibasePath = decodeEither' <$> readFile recruitibasePath
 
 
 data FieldOrder

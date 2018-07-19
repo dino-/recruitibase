@@ -63,6 +63,8 @@ executables:
     source-dirs: src/recruitibase
     main: Main.hs
     dependencies:
+    - filepath
+    - directory
     - recruitibase
 
 tests:

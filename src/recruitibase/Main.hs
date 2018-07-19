@@ -1,16 +1,21 @@
-import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as C8
+import System.Directory ( getHomeDirectory )
+import System.FilePath ( (</>), (<.>) )
 
-import Recruiter ( encodePretty, recrDecodeEither, recrConfig )
+import Recruiter ( encodePretty, loadDatabase, recrConfig )
+
+
+recruitibasePath :: IO FilePath
+recruitibasePath = do
+  homeDir <- getHomeDirectory
+  return $ homeDir </> ".config" </> "recruitibase" <.> "yaml"
 
 
 main :: IO ()
 main = do
   -- Loading data in
-  contents <- BS.readFile "/home/dino/doc/jobs/recruiters.yaml"
-  let result = recrDecodeEither contents
-  --print result
+  database <- loadDatabase =<< recruitibasePath
 
   -- Writing it back out
-  let recoded = encodePretty recrConfig <$> result
+  let recoded = encodePretty recrConfig <$> database
   either print C8.putStrLn recoded
