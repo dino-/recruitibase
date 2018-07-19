@@ -52,5 +52,5 @@ withInfo parser desc = info (helper <*> parser) $ progDesc desc <> fullDesc <> c
 
 commonFooter :: InfoMod a
 commonFooter = footer . unlines $
-  [ "Version " ++ (showVersion version) ++ "  Dino Morelli <dino@ui3.info>"
+  [ "Version " ++ (showVersion version) ++ " Dino Morelli <dino@ui3.info>"
   ]
