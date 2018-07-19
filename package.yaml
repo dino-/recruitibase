@@ -54,6 +54,9 @@ library:
   dependencies:
   - aeson
   - containers
+  - filepath
+  - directory
+  - optparse-applicative
   - text
   - yaml
 
@@ -62,9 +65,6 @@ executables:
     source-dirs: src/recruitibase
     main: Main.hs
     dependencies:
-    - filepath
-    - directory
-    - optparse-applicative
     - recruitibase
 
 tests:

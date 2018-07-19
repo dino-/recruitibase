@@ -11,10 +11,11 @@ import Data.Aeson ( FromJSON, ToJSON )
 import Data.ByteString ( readFile )
 import Data.Map ( Map )
 import Data.Text ( Text )
-import Data.Yaml ( ParseException, decodeEither' )
+import Data.Yaml ( decodeEither', prettyPrintParseException )
 import Data.Yaml.Pretty ( Config, defConfig, encodePretty, setConfCompare )
 import GHC.Generics ( Generic )
 import Prelude hiding ( readFile )
+import System.Exit ( exitFailure )
 
 
 newtype Note = Note (Map Text Text)
@@ -41,8 +42,14 @@ instance FromJSON Recruiter
 instance ToJSON Recruiter
 
 
-loadDatabase :: FilePath -> IO (Either ParseException [Recruiter])
-loadDatabase recruitibasePath = decodeEither' <$> readFile recruitibasePath
+loadDatabase :: FilePath -> IO [Recruiter]
+loadDatabase recruitibasePath = do
+  loadResult <- decodeEither' <$> readFile recruitibasePath
+  case loadResult of
+    Left pe -> do
+      putStrLn $ prettyPrintParseException pe
+      exitFailure
+    Right db -> return db
 
 
 data FieldOrder
