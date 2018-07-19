@@ -8,16 +8,16 @@ import Data.Text ( Text, concat, intercalate, unpack )
 import Prelude hiding ( concat )
 import System.IO ( hPutStrLn, stderr )
 
-import Common ( recruitibasePath )
-import Options ( ActiveSel (Active, All), MailingListOptions (..) )
+import Options ( ActiveSel (Active, All), Command (MailingList), Options (..) )
 import Recruiter ( Recruiter (active, email, givenName, surname),
   loadDatabase )
 
 
-doMailingList :: MailingListOptions -> IO ()
-doMailingList (MailingListOptions activeSel) = do
+doMailingList :: Options -> IO ()
+
+doMailingList (Options dbPath (MailingList activeSel)) = do
   -- Load the data
-  database <- loadDatabase =<< recruitibasePath
+  database <- loadDatabase dbPath
 
   -- Filter out any without email addresses
   let withEmail = filter (isJust . email) database
@@ -39,7 +39,7 @@ doMailingList (MailingListOptions activeSel) = do
   -- Print
   putStrLn . unpack $ withCommas
 
-  return ()
+doMailingList _ = undefined
 
 
 formatIntoEmail :: Recruiter -> Text

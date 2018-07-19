@@ -1,11 +1,11 @@
 import Dump ( doDump )
 import MailingList ( doMailingList )
-import Options ( Options (Dump, MailingList), parseOpts )
+import Options ( Command (Dump, MailingList), Options (..), parseOpts )
 
 
 main :: IO ()
 main = do
-  options <- parseOpts
-  case options of
-    Dump -> doDump
-    MailingList mlo -> doMailingList mlo
+  options@(Options _ command) <- parseOpts
+  case command of
+    Dump -> doDump options
+    MailingList _ -> doMailingList options

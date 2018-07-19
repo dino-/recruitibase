@@ -5,13 +5,13 @@ module Dump
 
 import qualified Data.ByteString.Char8 as C8
 
-import Common ( recruitibasePath )
+import Options ( Options (..) )
 import Recruiter ( encodePretty, loadDatabase, recrConfig )
 
 
-doDump :: IO ()
-doDump = do
+doDump :: Options -> IO ()
+doDump (Options dbPath _) = do
   -- Load the data
-  database <- loadDatabase =<< recruitibasePath
+  database <- loadDatabase dbPath
   let recoded = encodePretty recrConfig database
   C8.putStrLn recoded

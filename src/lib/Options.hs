@@ -1,56 +1,78 @@
 module Options
-  ( ActiveSel (..), MailingListOptions (..), Options (..)
+  ( ActiveSel (..), Command (..), Options (..)
   , parseOpts
   )
   where
 
 import Data.Version ( showVersion )
-import Options.Applicative ( InfoMod, Parser, ParserInfo, command, execParser,
-  flag, footer, fullDesc, help, helper, info, long, progDesc, subparser )
+import qualified Options.Applicative as O
 import Paths_recruitibase ( version )
+
+import Common ( recruitibasePath )
 
 
 data ActiveSel = Active | All
 
+data Command
+  = Dump
+  | MailingList { cmdActiveSel :: ActiveSel }
 
-parseActiveSel :: Parser ActiveSel
-parseActiveSel = flag Active All $
-  long "all" <>
-  help "Extract all emails from the database, not just the active ones"
-
-
-data MailingListOptions = MailingListOptions
-  { activeSel :: ActiveSel
+data Options = Options
+  { optDbPath :: FilePath
+  , optCommand :: Command
   }
 
 
-data Options
-  = Dump
-  | MailingList MailingListOptions
+parseActiveSel :: O.Parser ActiveSel
+parseActiveSel = O.flag Active All $
+  O.long "all" <>
+  O.help "Extract all emails from the database, not just the active ones"
 
 
-parseMailingList :: Parser Options
-parseMailingList = MailingList <$> (MailingListOptions <$> parseActiveSel)
+parseDump :: O.Parser Command
+parseDump = pure Dump
+
+
+parseMailingList :: O.Parser Command
+parseMailingList = MailingList <$> parseActiveSel
+
+
+parseDbPath :: FilePath -> O.Parser FilePath
+parseDbPath defaultDbPath = O.strOption $
+  O.long "dbpath" <>
+  O.short 'd' <>
+  O.help "Path to the YAML database file" <>
+  O.showDefault <>
+  O.value defaultDbPath <>
+  O.metavar "PATH"
+
+
+parseCommand :: O.Parser Command
+parseCommand = O.subparser $
+  O.command "mailinglist" (parseMailingList `withInfo`
+    "Produce a mailing list") <>
+  O.command "dump" (parseDump `withInfo`
+    "Dump entire database to stdout as YAML")
+
+
+
+parseOptions :: FilePath -> O.Parser Options
+parseOptions defaultDbPath = Options <$> parseDbPath defaultDbPath <*> parseCommand
 
 
 parseOpts :: IO Options
-parseOpts = execParser $ parseCommand `withInfo`
-  "Extraction and viewing of the YAML recruiters 'database'"
-
-  where
-    parseCommand = subparser $
-      command "mailinglist" (parseMailingList `withInfo`
-        "Produce a mailing list") <>
-      command "dump" (pure Dump `withInfo`
-        "Dump entire database to stdout as YAML")
+parseOpts = do
+  defaultDbPath <- recruitibasePath
+  O.execParser $ parseOptions defaultDbPath `withInfo`
+    "Extraction and viewing of the YAML recruiters 'database'"
 
 
 -- Convenience function to add --help support to anything
-withInfo :: Parser a -> String -> ParserInfo a
-withInfo parser desc = info (helper <*> parser) $ progDesc desc <> fullDesc <> commonFooter
+withInfo :: O.Parser a -> String -> O.ParserInfo a
+withInfo parser desc = O.info (O.helper <*> parser) $ O.progDesc desc <> O.fullDesc <> commonFooter
 
 
-commonFooter :: InfoMod a
-commonFooter = footer . unlines $
+commonFooter :: O.InfoMod a
+commonFooter = O.footer . unlines $
   [ "Version " ++ (showVersion version) ++ " Dino Morelli <dino@ui3.info>"
   ]
