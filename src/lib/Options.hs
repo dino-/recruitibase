@@ -11,18 +11,15 @@ import Paths_recruitibase ( version )
 
 
 data ActiveSel = Active | All
-  deriving Show
 
 
 data MailingListOptions = MailingListOptions
   { activeSel :: ActiveSel
   }
-  deriving Show
 
 
 data Options
   = MailingList MailingListOptions
-  deriving Show
 
 
 parseActiveSel :: Parser ActiveSel
@@ -31,6 +28,7 @@ parseActiveSel = flag Active All $
   help "Extract all emails from the database, not just the active ones"
 
 
+parseMailingList :: Parser Options
 parseMailingList = MailingList <$> (MailingListOptions <$> parseActiveSel)
 
 
