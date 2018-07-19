@@ -13,6 +13,12 @@ import Paths_recruitibase ( version )
 data ActiveSel = Active | All
 
 
+parseActiveSel :: Parser ActiveSel
+parseActiveSel = flag Active All $
+  long "all" <>
+  help "Extract all emails from the database, not just the active ones"
+
+
 data MailingListOptions = MailingListOptions
   { activeSel :: ActiveSel
   }
@@ -20,12 +26,6 @@ data MailingListOptions = MailingListOptions
 
 data Options
   = MailingList MailingListOptions
-
-
-parseActiveSel :: Parser ActiveSel
-parseActiveSel = flag Active All $
-  long "all" <>
-  help "Extract all emails from the database, not just the active ones"
 
 
 parseMailingList :: Parser Options
