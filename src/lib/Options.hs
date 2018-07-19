@@ -25,7 +25,8 @@ data MailingListOptions = MailingListOptions
 
 
 data Options
-  = MailingList MailingListOptions
+  = Dump
+  | MailingList MailingListOptions
 
 
 parseMailingList :: Parser Options
@@ -39,7 +40,9 @@ parseOpts = execParser $ parseCommand `withInfo`
   where
     parseCommand = subparser $
       command "mailinglist" (parseMailingList `withInfo`
-        "Produce a mailing list")
+        "Produce a mailing list") <>
+      command "dump" (pure Dump `withInfo`
+        "Dump entire database to stdout as YAML")
 
 
 -- Convenience function to add --help support to anything
