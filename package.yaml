@@ -65,6 +65,7 @@ executables:
     dependencies:
     - filepath
     - directory
+    - optparse-applicative
     - recruitibase
 
 tests:
