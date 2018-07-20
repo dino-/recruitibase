@@ -34,7 +34,7 @@ data Recruiter = Recruiter
   , email :: Maybe Text
   , web :: Maybe Text
   , active :: Bool
-  , notes :: [Note]
+  , notes :: Note
   }
   deriving (Generic, Show)
 
@@ -62,7 +62,7 @@ data FieldOrder
   | Web
   | Active
   | Notes
-  | Undefined
+  | UndefinedField
   deriving (Eq, Ord)
 
 
@@ -76,8 +76,17 @@ toFieldOrder "email" = Email
 toFieldOrder "web" = Web
 toFieldOrder "active" = Active
 toFieldOrder "notes" = Notes
-toFieldOrder _ = Undefined
+toFieldOrder _ = UndefinedField
 
 
 recrConfig :: Config
-recrConfig = setConfCompare (\t u -> compare (toFieldOrder t) (toFieldOrder u)) defConfig
+recrConfig = setConfCompare compareFunc defConfig
+  where
+    compareFunc t u = case (tfo, ufo) of
+      (UndefinedField, _             ) -> compare t u
+      (_             , UndefinedField) -> compare t u
+      (_             , _             ) -> compare tfo ufo
+
+      where
+        tfo = toFieldOrder t
+        ufo = toFieldOrder u
