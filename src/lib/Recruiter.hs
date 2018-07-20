@@ -12,7 +12,8 @@ import Data.ByteString ( readFile )
 import Data.Map ( Map )
 import Data.Text ( Text )
 import Data.Yaml ( decodeEither', prettyPrintParseException )
-import Data.Yaml.Pretty ( Config, defConfig, encodePretty, setConfCompare )
+import Data.Yaml.Pretty ( Config, defConfig, encodePretty, setConfCompare,
+  setConfDropNull )
 import GHC.Generics ( Generic )
 import Prelude hiding ( readFile )
 import System.Exit ( exitFailure )
@@ -80,7 +81,7 @@ toFieldOrder _ = UndefinedField
 
 
 recrConfig :: Config
-recrConfig = setConfCompare compareFunc defConfig
+recrConfig = setConfDropNull True $ setConfCompare compareFunc defConfig
   where
     compareFunc t u = case (tfo, ufo) of
       (UndefinedField, _             ) -> compare t u
