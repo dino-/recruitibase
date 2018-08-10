@@ -11,6 +11,7 @@ extra-source-files:
 - changelog.md
 - package.yaml
 - README.md
+- recruitibase.yaml
 - stack.yaml
 
 github: dino-/recruitibase

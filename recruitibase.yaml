@@ -1,0 +1,38 @@
+- givenName: Ren
+  surname: Höek
+  company: Spümcø
+  address: Los Angeles, CA
+  phone: 555-666-7777x888
+  email: rhoek@spumco.com
+  web: https://spumco.com
+  active: true
+  notes:
+    2018-08-01: Recd email about a terrible-sounding job
+    2018-08-03: Wrote back that I should never be contacted again for any reason
+
+- givenName: Stimpson "Stimpy" J
+  surname: Cat
+  email: stimpy@redbutton.com
+  active: true
+  notes:
+    2018-06-15: Recd email. Never wrote back.
+
+- givenName: Muddy
+  surname: Mudskipper
+  company: Mudslide Placement Services
+  phone: 111-222-3333
+  email: muddy@mudslide.co.uk
+  active: false
+  notes:
+    2015-01-20: Recd info about a position via email
+    2017-05-01: This contact seems to no longer be active, no response to emails.
+
+# - givenName: 
+#   surname: 
+#   company: 
+#   address: 
+#   phone: 
+#   email: 
+#   web: 
+#   active: true
+#   notes:
