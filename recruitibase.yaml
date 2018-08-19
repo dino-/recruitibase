@@ -27,6 +27,8 @@
     2015-01-20: Recd info about a position via email
     2017-05-01: This contact seems to no longer be active, no response to emails.
 
+# Example record of all possible fields
+# Some are optional, see the def of Recruiter in src/lib/Recruiter.hs
 # - givenName: 
 #   surname: 
 #   company: 
