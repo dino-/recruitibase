@@ -27,7 +27,7 @@ instance ToJSON Note
 
 
 data Recruiter = Recruiter
-  { givenName :: Text
+  { givenName :: Maybe Text
   , surname :: Maybe Text
   , company :: Maybe Text
   , address :: Maybe Text

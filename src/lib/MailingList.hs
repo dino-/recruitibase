@@ -43,7 +43,8 @@ doMailingList _ = undefined
 
 
 formatIntoEmail :: Recruiter -> Text
-formatIntoEmail recr = concat [givenName recr, " ", surname', email']
+formatIntoEmail recr = concat [givenName', surname', email']
   where
+    givenName' = maybe "" (\t -> concat [t, " "]) $ givenName recr
     surname' = maybe "" (\t -> concat [t, " "]) $ surname recr
     email' = maybe "" (\t -> concat ["<", t, ">"]) $ email recr
