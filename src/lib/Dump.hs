@@ -3,7 +3,8 @@ module Dump
   )
   where
 
-import qualified Data.ByteString.Char8 as C8
+import qualified Data.Text.Encoding as TE
+import qualified Data.Text.IO as TIO
 
 import Options ( Options (..) )
 import Recruiter ( encodePretty, loadDatabase, recrConfig )
@@ -14,4 +15,4 @@ doDump (Options dbPath _) = do
   -- Load the data
   database <- loadDatabase dbPath
   let recoded = encodePretty recrConfig database
-  C8.putStrLn recoded
+  TIO.putStrLn . TE.decodeUtf8 $ recoded
