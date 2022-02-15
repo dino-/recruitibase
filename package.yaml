@@ -1,5 +1,5 @@
 name: recruitibase
-version: '1.1'
+version: '1.2'
 synopsis: A tool for extracting data from a simple YAML "database" of recruiters
 description: Over the years I built up a text file of recruiter info to track job hunting efforts. Eventually, I adopted a YAML format for this data to facilitate data extraction. This software does some of that extraction.
 license: ISC
